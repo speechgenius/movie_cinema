@@ -1,0 +1,8 @@
+## run this when in production to collect static files to appropriate location
+python manage.py collectstatic
+
+## i added that in installed apps
+"django.contrib.staticfiles.storage.StaticFilesStorage"
+
+added in settings file  part of template
+"DIRS": [BASE_DIR/"templates"],

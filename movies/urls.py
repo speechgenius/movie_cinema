@@ -1,5 +1,5 @@
 """
-URL configuration for pymovie project.
+URL configuration for movies project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -15,8 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from movies import views
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("register", views.register),
+    path("login", views.login),
+    path("seat", views.seatSelection),
+    path("", views.seatSelection),
+    path('list', views.movieList),
+    path('accounts/', include("django.contrib.auth.urls"))
+
+    
 ]
