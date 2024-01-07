@@ -6,3 +6,11 @@ python manage.py collectstatic
 
 added in settings file  part of template
 "DIRS": [BASE_DIR/"templates"],
+
+
+## youtube channel
+pretty printed channel
+
+
+## UI cards
+https://blog.avada.io/css/movie-cards#movie-card-ui-juan-vaz

@@ -25,9 +25,15 @@ urlpatterns = [
     path("register", views.register),
     path("login", views.login),
     path("seat", views.seatSelection),
-    path("", views.seatSelection),
+    path("", views.index),
     path('list', views.movieList),
-    path('accounts/', include("django.contrib.auth.urls"))
+    path('accounts/', include("django.contrib.auth.urls")),
+    path('netflix', views.read_json_from_file),
+    path('netflixDisplay', views.netflixDisplay),
+    path('n', views.netflixToJson),
+    path('card', views.cardPayment, name='cardPayment')
+    
+
 
     
 ]

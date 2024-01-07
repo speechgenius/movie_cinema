@@ -37,12 +37,14 @@
             <div class="title">Login</div>
           <form method="POST">
             {% csrf_token %}
-
-            {{ form.as_p }} 
+            <!-- {{ form.as_p }} 
+            {{ form.name }} -->
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Enter your email" required>
+                <!-- <input type="text" placeholder="Enter your email" required> -->
+                {% load widget_tweaks %}
+                {% render_field form.name placeholder="enter your name" class="form-control"%}
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>

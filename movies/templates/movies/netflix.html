@@ -1,0 +1,7 @@
+{% for title in titles %}
+<!-- <li>{{ title.jawSummary.contextualSynopsis.text }}</li> -->
+<li>
+    <a href="{{ title.jawSummary.backgroundImage.url }}">{{ title.jawSummary.title }}</a>
+<img src="{{ title.jawSummary.backgroundImage.url }}" width="100px" height="100" alt="">
+</li>
+{% endfor %}
