@@ -18,6 +18,7 @@ def movieList(request):
     return render(request, 'movies/movielist.html')
 
 def register(request):
+    
     return HttpResponse("Register Page")
 
 def login(request):
@@ -30,18 +31,22 @@ def index(request):
     return render(request, 'registration/login.html', context)
 
 
-
 def netflixDisplay(request):
-    url = "https://netflix54.p.rapidapi.com/search/"
-    querystring = {"query":"stranger","offset":"30","limit_titles":"5","limit_suggestions":"20","lang":"en"}
-    headers = {
-        "X-RapidAPI-Key": "d36244c78bmsh748fd1611f4f5c8p149ad2jsn0c2dbce20a66",
-        "X-RapidAPI-Host": "netflix54.p.rapidapi.com"
-    }
-    response = requests.get(url, headers=headers, params=querystring)
-    print(response.json())
-    response=response.json()
-    return render(request, 'movies/movielist.html', response)
+    try:
+        url = "https://netflix54.p.rapidapi.com/search/"
+        querystring = {"query":"stranger","offset":"5","limit_titles":"5","limit_suggestions":"20","lang":"en"}
+        headers = {
+            "X-RapidAPI-Key": "d36244c78bmsh748fd1611f4f5c8p149ad2jsn0c2dbce20a66",
+            "X-RapidAPI-Host": "netflix54.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        print(response.json())
+        response=response.json()
+        return render(request, 'movies/movielist.html', response)
+    
+    except requests.exceptions.RequestException as e:
+         return render(request, 'movies/movielist.html')
+
 
 
 

@@ -37,6 +37,10 @@
             <div class="title">Login</div>
           <form method="POST">
             {% csrf_token %}
+
+            {% if form.errors %}
+<p>Incorrect usename or password! </p>
+            {% endif %}
             <!-- {{ form.as_p }} 
             {{ form.name }} -->
             <div class="input-boxes">
@@ -48,7 +52,9 @@
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Enter your password" required>
+                <!-- <input type="password" placeholder="Enter your password" required> -->
+                {% load widget_tweaks %}
+                {% render_field form.password type="password" placeholder="enter your password" class="form-control" %}
               </div>
               <div class="text"><a href="#">Forgot password?</a></div>
               <div class="button input-box">
@@ -60,11 +66,16 @@
       </div>
         <div class="signup-form">
           <div class="title">Signup</div>
-        <form action="#">
+        <form method="post" action="{% url 'register' %}">
+          {% csrf_token %}
+
+          {{ form }}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>
-                <input type="text" placeholder="Enter your name" required>
+                <!-- <input type="text" placeholder="Enter your name" required> -->
+                {% load widget_tweaks %}
+                {% render_field form.name  type="text" placeholder="Enter your name" class="form-control"%}
               </div>
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
@@ -72,7 +83,9 @@
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Enter your password" required>
+                <!-- <input type="password" placeholder="Enter your password" required> -->
+                {% load widget_tweaks %}
+                {% render_field form.password type="password" placeholder="Enter your password" class="form-control"%}
               </div>
               <div class="button input-box">
                 <input type="submit" value="Submit">

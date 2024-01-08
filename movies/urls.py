@@ -23,9 +23,11 @@ from movies import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("register", views.register),
-    path("login", views.login),
+    # path("login", views.login),
     path("seat", views.seatSelection),
-    path("", views.index),
+    path("login/", views.index),
+    path('register', views.register, name='register'),
+    path('', views.netflixDisplay),
     path('list', views.movieList),
     path('accounts/', include("django.contrib.auth.urls")),
     path('netflix', views.read_json_from_file),
