@@ -14,28 +14,29 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 
 from movies import views
 
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("register", views.register),
-    # path("login", views.login),
-    path("seat", views.seatSelection),
-    path("login/", views.index),
-    path('register', views.register, name='register'),
-    path('', views.netflixDisplay),
-    path('list', views.movieList),
-    path('accounts/', include("django.contrib.auth.urls")),
-    path('netflix', views.read_json_from_file),
-    path('netflixDisplay', views.netflixDisplay),
-    path('n', views.netflixToJson),
-    path('card', views.cardPayment, name='cardPayment')
-    
+                  path("admin/", admin.site.urls),
+                  # path("login", views.login),
+                  path("seat", views.seatSelection, name='seat'),
+                  path("login/", views.index, name='login'),
+                  path('register', views.login_or_register, name='login_or_register'),
+                  path('', views.netflixDisplay),
+                  path('accounts/', include("django.contrib.auth.urls")),
+                  path('netflix', views.read_json_from_file),
+                  path('netflixDisplay', views.netflixDisplay, name='list'),
+                  path('netflixToJson', views.netflixToJson),
+                  path('card', views.cardPayment, name='cardPayment'),
+                  path('movieDetails/<str:movie_id>/', views.movieDetails, name='details'),
+                  path("listi", views.movieList, name='movieList'),
+                  path('re/', views.register_user, name='register'),
 
 
-    
-]
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,16 +1,17 @@
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
-from .models import Movie, UserProfile, Movies
-from .forms import LoginForm, MemberForm, RegisterForm, RegistrationForm
+from .models import Jaribu, Movie, UserProfile
+from .forms import LoginForm, MemberForm, RegistrationForm
 import requests
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 
-from django.contrib.auth import login
 
-
+def jaribu(request, item_id):
+    item = Jaribu.objects.get(pk=item_id)
+    return render(request, 'movies\jaribu.html', {'item': item})
 
 
 def login_or_register(request):
@@ -34,6 +35,20 @@ def login_or_register(request):
                 login_form.add_error(None, 'Invalid username or password')
                 registration_form = RegistrationForm()
                 return render(request, 'registration/login.html', {'login_form': login_form, 'registration_form': registration_form})
+            
+
+
+                # user = authenticate(request, username=username, password=password)
+                # if user is not None:
+                #     login(request, user)
+                #     return redirect('list')  # Redirect to the dashboard or another page after login
+                    
+                # else:
+                #     print(username)
+                #     print(password)
+                #     return redirect('seat')
+                    # Authentication failed, display an error message
+                    # login_form.add_error(None, 'Invalid username or password')
                 
         elif 'register' in request.POST:
 
@@ -71,52 +86,28 @@ def login_or_register(request):
 
 
 
-# views.py
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.models import User
-from .forms import RegistrationForm
+def movieDetails(request, title_id):
+    try:
+        import requests
 
-def register_user(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # Log the user in
+        url = "https://netflix54.p.rapidapi.com/title/details/"
 
-            # # Create an admin user
-            # if user.is_staff:
-            #     User.objects.create_superuser(username=user.username, email=user.email, password=user.password)
+        querystring = {"ids": title_id,"lang":"en"}
 
-            return redirect('movieList')  # Redirect to the home page or any other desired page
-    else:
-        form = RegisterForm()
+        headers = {
+            "X-RapidAPI-Key": "d36244c78bmsh748fd1611f4f5c8p149ad2jsn0c2dbce20a66",
+            "X-RapidAPI-Host": "netflix54.p.rapidapi.com"
+        }
 
-    return render(request, 'registration/register.html', {'form': form})
+        response = requests.get(url, headers=headers, params=querystring)
 
 
-
-
-
-
-
-
-# def movieList(request):
-#     movies = Jaribu.objects.all()
-#     return render(request, 'movies/movielist.html', {'movies': movies})
-
-def movieList(request):
-    movies = Movies.objects.all()
-    return render(request, 'movies/movielist.html', {'movies': movies})
-
-
-
-def movieDetails(request, movie_id):
-    print(movie_id)
-    movie = Movies.objects.get(pk=movie_id)
-
-    return render(request, 'movies/movieDetails.html', {'movie': movie})
-
+        response=response.json()
+        print(response)
+        return render(request, 'movies/movieDetails.html', {'response':response})
+    
+    except requests.exceptions.RequestException as e:
+         return render(request, 'movies/movieDetails.html')
  
     
 
@@ -124,13 +115,15 @@ def movieDetails(request, movie_id):
 def seatSelection(request):
     return render(request, 'movies/seatSelection.html')
 
-
+def movieList(request):
+    movies = Jaribu.objects.all()
+    return render(request, 'movies/movielist.html', {'movies': movies})
 
 # def register(request):
 #     return HttpResponse("Register Page")
 
-# def login(request):
-#     return render(request, 'movies/login.html')
+def login(request):
+    return render(request, 'movies/login.html')
 
 
 def index(request):

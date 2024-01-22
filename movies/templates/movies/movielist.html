@@ -61,12 +61,12 @@
           <h2>LATEST TRAILERS</h2>
           <p class="text-right"><a href="#">See all</a></p>
         </div>
-        {% for title in titles %}
+
+
+        {% for movie in movies %}
 
         <div class="movie">
-
-          <!-- <div class="movie-image"> <span class="play"><span class="name">SPIDER MAN 3</span></span> <a href="#"><img src="{% static "movielist\css\images\movie3.jpg" %}" alt="" /></a> </div> -->
-          <div class="movie-image"> <a href="{% url 'register' %}"><span class="play"><span class="name">{{ title.jawSummary.title }}</span></span> <img src="{{ title.jawSummary.backgroundImage.url }}" alt="good" /> </a></div>
+          <div class="movie-image"> <a href="{% url 'details' movie_id=movie.id %}"><span class="play"><span class="name">{{ movie.name }} </span></span> <img src="{{ movie.image.url }}" alt="good" /> </a></div>
           <div class="rating">
             <p>RATING</p>
             <div class="stars">
@@ -77,9 +77,13 @@
 
         {% endfor %}
 
+
+
+
+
       
-        <div class="movie last">
-          <div class="movie-image"> <span class="play"><span class="name">ICE AGE</span></span> <a href="{% url 'register' %}"><img src="{% static "movielist\css\images\movie6.jpg" %}" alt="" /></a> </div>
+        <div class="movie last"><a href="{% url 'login_or_register' %}">
+          <div class="movie-image"> <span class="play"><span class="name">ICE AGE</span></span> <img src="{% static "movielist\css\images\movie6.jpg" %}" alt="" /></a> </div>
           <div class="rating">
             <p>RATING</p>
             <div class="stars">

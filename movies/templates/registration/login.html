@@ -35,10 +35,10 @@
         <div class="form-content">
           <div class="login-form">
             <div class="title">Login</div>
-          <form method="POST">
+          <form method="post" action="{% url 'login_or_register' %}">
             {% csrf_token %}
 
-            {% if form.errors %}
+            {% if login_form.errors %}
 <p>Incorrect usename or password! </p>
             {% endif %}
             <!-- {{ form.as_p }} 
@@ -48,17 +48,17 @@
                 <i class="fas fa-envelope"></i>
                 <!-- <input type="text" placeholder="Enter your email" required> -->
                 {% load widget_tweaks %}
-                {% render_field form.name placeholder="enter your name" class="form-control"%}
+                <!-- {{ registration_form.username.label_tag }} -->
+                {% render_field login_form.username placeholder="enter your username" class="form-control"%}
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
                 <!-- <input type="password" placeholder="Enter your password" required> -->
-                {% load widget_tweaks %}
-                {% render_field form.password type="password" placeholder="enter your password" class="form-control" %}
+                {% render_field login_form.password placeholder="enter your password" class="form-control" %}
               </div>
               <div class="text"><a href="#">Forgot password?</a></div>
               <div class="button input-box">
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" name="login">
               </div>
               <div class="text sign-up-text">Don't have an account? <label for="flip">Sigup now</label></div>
             </div>
@@ -66,29 +66,33 @@
       </div>
         <div class="signup-form">
           <div class="title">Signup</div>
-        <form method="post" action="{% url 'register' %}">
+        <form method="post" action="{% url 'login_or_register' %}">
           {% csrf_token %}
-
-          {{ form }}
+          {% if registration_form.errors %}
+          <p>Unmatched passwords! </p>
+                      {% endif %}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-user"></i>
                 <!-- <input type="text" placeholder="Enter your name" required> -->
-                {% load widget_tweaks %}
-                {% render_field form.name  type="text" placeholder="Enter your name" class="form-control"%}
+                {% render_field registration_form.username placeholder="Enter your username" class="form-control"%}
               </div>
-              <div class="input-box">
+              <!-- <div class="input-box">
                 <i class="fas fa-envelope"></i>
                 <input type="text" placeholder="Enter your email" required>
+              </div> -->
+              <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <!-- <input type="password" placeholder="Enter your password" required> -->
+                {% render_field registration_form.password placeholder="Enter your password" class="form-control"%}
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
                 <!-- <input type="password" placeholder="Enter your password" required> -->
-                {% load widget_tweaks %}
-                {% render_field form.password type="password" placeholder="Enter your password" class="form-control"%}
+                {% render_field registration_form.confirm_password placeholder="Confirm Password" class="form-control"%}
               </div>
               <div class="button input-box">
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" name="register">
               </div>
               <div class="text sign-up-text">Already have an account? <label for="flip">Login now</label></div>
             </div>
