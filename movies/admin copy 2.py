@@ -42,24 +42,16 @@ admin.site.site_title = 'Your Site Admin'
 from django.contrib import admin
 from .models import Theater, Screen, Movie
 
-class ScreenInlines(admin.TabularInline):
+class ScreenInline(admin.TabularInline):
     model = Screen
     extra = 4  # Assuming 4 screens per theater
-    
 
 class TheaterAdmin(admin.ModelAdmin):
     list_display = ('name', 'location')
-    inlines = [ScreenInlines]
-
-
-class ScreenInline(admin.TabularInline):  # or admin.StackedInline for a different layout
-    model = Movie.screens.through  # the intermediate model for the ManyToManyField
-    extra = 4  # number of inline forms to show
+    inlines = [ScreenInline]
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ('title', 'release_date', 'price', 'category', 'display_screens')
-    inlines = [ScreenInline]
-    ordering = ['title'] 
 
     def display_screens(self, obj):
         return ", ".join([f"{screen.theater.name} - Screen {screen.number}" for screen in obj.screens.all()])
@@ -67,7 +59,6 @@ class MovieAdmin(admin.ModelAdmin):
 
 class ScreenAdmin(admin.ModelAdmin):
     list_display = ('theater', 'number')
-    ordering = ['theater', 'number']
 
 admin.site.register(Theater, TheaterAdmin)
 admin.site.register(Screen, ScreenAdmin)

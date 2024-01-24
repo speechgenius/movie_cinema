@@ -2,12 +2,12 @@ from django.db import models
 from django.utils import timezone
 
 
-class Movie(models.Model):
-    title = models.CharField(max_length=200)
-    year = models.IntegerField()
+# class Movie(models.Model):
+#     title = models.CharField(max_length=200)
+#     year = models.IntegerField()
 
-    def __str__(self):
-        return f'title: {self.title} year: {self.year}'
+#     def __str__(self):
+#         return f'title: {self.title} year: {self.year}'
 
 
 class Member(models.Model):
@@ -81,13 +81,45 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
-class Movies(models.Model):
+class Theater(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Screen(models.Model):
+    theater = models.ForeignKey(Theater, on_delete=models.CASCADE)
+    number = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.theater.name} - Screen {self.number}"
+
+
+class Movie(models.Model):
     # Define the fields for the Movie model
     title = models.CharField(max_length=100)  # The title of the movie
+    trailer = models.CharField(max_length=100, default='')
+    synopsis = models.TextField(default='none')
     genre = models.CharField(max_length=50)  # The genre of the movie
     language = models.CharField(max_length=50)  # The language of the movie
+    duration = models.CharField(max_length=50, default='')
     release_date = models.DateField()  # The release date of the movie
-    price = models.DecimalField(max_digits=6, decimal_places=2)  # The price of the movie ticket
+    price = models.DecimalField(max_digits=12, decimal_places=2)  # The price of the movie ticket
     image = models.ImageField(upload_to='movies/')  # The image of the movie poster
-    rating = models.FloatField()  # The average rating of the movie
-    reviews = models.TextField()  # The reviews of the movie
+    # rating = models.FloatField()  # The average rating of the movie
+    # reviews = models.TextField()  # The reviews of the movie
+    CATEGORY_CHOICES = [
+        ('top', 'Top'),
+        ('latest', 'Latest'),
+    ]
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='latest')
+    # theaters = models.ManyToManyField(Theater)
+    screens = models.ManyToManyField(Screen)
+
+    def __str__(self):
+        return self.title
+
+
+

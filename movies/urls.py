@@ -24,19 +24,17 @@ from django.conf.urls.static import static
 
 urlpatterns = [
                   path("admin/", admin.site.urls),
-                  # path("login", views.login),
+                  path("", views.movieList, name='movieList'),
+                  path('card', views.cardPayment, name='cardPayment'),
                   path("seat", views.seatSelection, name='seat'),
                   path("login/", views.index, name='login'),
                   path('register', views.login_or_register, name='login_or_register'),
-                  path('', views.netflixDisplay),
                   path('accounts/', include("django.contrib.auth.urls")),
                   path('netflix', views.read_json_from_file),
                   path('netflixDisplay', views.netflixDisplay, name='list'),
                   path('netflixToJson', views.netflixToJson),
-                  path('card', views.cardPayment, name='cardPayment'),
                   path('movieDetails/<str:movie_id>/', views.movieDetails, name='details'),
-                  path("listi", views.movieList, name='movieList'),
-                  path('re/', views.register_user, name='register'),
 
+                  path('re/', views.register_user, name='register'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
